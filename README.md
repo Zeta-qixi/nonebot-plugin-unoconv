@@ -32,7 +32,7 @@ plugins = [
 2. 发送文件  
 
 
-| ![image](https://github.com/Zeta-qixi/nonebot-plugin-unoconv/blob/master/image/demo1.png) | ![image](https://github.com/Zeta-qixi/nonebot-plugin-unoconv/blob/master/image/demo2.png) |
+| ![image](https://github.com/Zeta-qixi/nonebot-plugin-unoconv/blob/master/image/demo1.png) | ![image](https://github.com/Zeta-qixi/nonebot-plugin-unoconv/blob/master/image/demo2.jpg) |
 |:--:|:--:|
 
 
