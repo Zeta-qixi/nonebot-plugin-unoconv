@@ -14,7 +14,21 @@ linux_install("unoconv")
 
 
 queue = {}
-output_type = {}
+
+
+to_pdf_f = on_command('文件转换')
+@to_pdf_f.handle()
+async def _(bot: Bot, event: MessageEvent, state: T_State, export: Message = CommandArg()):
+
+    if str(export) != '':
+        state['output_type'] = export
+
+@to_pdf_f.got('output_type', '请输入转换格式:')
+async def _(bot: Bot, event: MessageEvent, state: T_State):
+
+    queue[event.user_id] = {'farce':1}
+    queue[event.user_id]['output_type'] = str(state['output_type']).lower()
+    await bot.send(event, message='准备完毕, 请发文档')
 
 
 to_pdf = on_command('文件转换')
@@ -27,8 +41,9 @@ async def _(bot: Bot, event: MessageEvent, state: T_State, export: Message = Com
 
 @to_pdf.got('output_type', '请输入转换格式:')
 async def _(bot: Bot, event: MessageEvent, state: T_State):
-    queue[event.user_id] = 1
-    output_type[event.user_id] = str(state['output_type']).lower()
+
+    queue[event.user_id] = {}
+    queue[event.user_id]['output_type'] = str(state['output_type']).lower()
     await bot.send(event, message='准备完毕, 请发文档')
 
 
@@ -36,25 +51,25 @@ notice = on_notice()
 @notice.handle()
 async def _(bot: Bot, event: NoticeEvent):
     
-    if queue.get(event.user_id) != 1:
-        await bot.finish(message='文件转换失败')
+    if not queue.get(event.user_id, None):
+        return
     
-    if not check_type('output', output_type.get(event.user_id)):
-        await bot.finish(message='不支持该输出格式')
+    if not queue[event.user_id].get('farce'):
+        if not check_type('output', queue[event.user_id]['output_type']):
+            await bot.finish(message='不支持该输出格式')
 
-    
-    if event.notice_type == 'group_upload':
-        name = event.file.name 
-        url = event.file.url
-    elif event.notice_type == 'offline_file':
-        name = event.file['name'] 
-        url = event.file['url']
-
-    
-    await conver_and_upload(bot, event, output_type.get(event.user_id), url, name)
-    
-    queue[event.user_id] = 0
-    output_type[event.user_id] = ''
+    try:
+        if event.notice_type == 'group_upload':
+            name = event.file.name 
+            url = event.file.url
+        elif event.notice_type == 'offline_file':
+            name = event.file['name'] 
+            url = event.file['url']
+        await conver_and_upload(bot, event, queue[event.user_id]['output_type'], url, name)
+    except Exception as e:
+        await bot.finish(message='发生错误')
+        logger.error(e.__repr__)
+    del(queue[event.user_id])
 
 
 async def conver_and_upload(bot: Bot, event: Event, export_type: str, url: str, name: str):

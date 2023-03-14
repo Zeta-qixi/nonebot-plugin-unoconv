@@ -24,9 +24,8 @@ async def download(url, name):
 
 
 async def convert_to_pdf(export_type, filePath):
-
+    
     fileName, _ = os.path.splitext(filePath)
-    print(fileName)
     outPath = fileName + "." + export_type
     await run_subprocess(["unoconv", "-f", export_type, "-o", outPath, filePath])
     await del_file(filePath)
