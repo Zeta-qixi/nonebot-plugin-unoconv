@@ -9,11 +9,11 @@ setup(
     version='0.5',
     author='Zeta',
     author_email='',
-    long_description="https://github.com/Zeta-qixi/nonebot-plugin-covid19-news",
+    long_description="https://github.com/Zeta-qixi/nonebot-plugin-unoconv",
     license="MIT Licence",
-    url='https://github.com/Zeta-qixi/nonebot-plugin-covid19-news/',
-    description='nonebot_plugin about covid-19 news',
-    packages=['nonebot_plugin_covid19_news'],
+    url='https://github.com/Zeta-qixi/nonebot-plugin-unoconv/',
+    description='nonebot_plugin about use unoconv',
+    packages=['nonebot_plugin_unoconv'],
     install_requires=requirements,
 
 )
