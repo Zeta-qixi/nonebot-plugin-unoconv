@@ -1,0 +1,5 @@
+nonebot2>=2.0.0rc3
+nonebot-adapter-cqhttp>=2.0.0b1
+
+
+
