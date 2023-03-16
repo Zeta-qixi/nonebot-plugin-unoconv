@@ -16,7 +16,7 @@ linux_install("unoconv")
 queue = {}
 
 
-to_pdf_f = on_command('文件转换')
+to_pdf_f = on_command('强制文件转换')
 @to_pdf_f.handle()
 async def _(bot: Bot, event: MessageEvent, state: T_State, export: Message = CommandArg()):
 
